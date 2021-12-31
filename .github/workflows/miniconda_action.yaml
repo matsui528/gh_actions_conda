@@ -1,0 +1,28 @@
+name: Default
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+
+    # Install the latest miniconda. The "test" environment is activated 
+    - name: Setup miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniconda-version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        conda install -c pytorch faiss-cpu
+        
+    - name: Run test
+      run: |
+        python run.py
+        
