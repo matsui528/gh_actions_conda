@@ -1,0 +1,27 @@
+name: Default
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+    
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    
+    - name: Install dependencies
+      run: |
+        conda install -c pytorch faiss-cpu
+        
+    - name: Run test
+      run: |
+        python run.py
+        
